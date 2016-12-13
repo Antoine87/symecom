@@ -210,4 +210,12 @@ class Customer
     {
         return $this->adresses;
     }
+
+    public function getFullName(){
+        $fullName = "";
+        if($this->firstName != null){
+            $fullName = $this->firstName . " ";
+        }
+        return $fullName . strtoupper($this->name);
+    }
 }

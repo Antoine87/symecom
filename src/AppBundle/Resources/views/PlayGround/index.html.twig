@@ -5,5 +5,41 @@
 {% block body %}
 <h1>Welcome to the PlayGround:index page</h1>
 <p>le code postal est {{ client.adresses[0].postalCode }}</p>
-    {{ dump(client) }}
+    {{ dump(clientList) }}
+
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Nom</th>
+            <th>e-mail</th>
+            <th>date de naissance</th>
+            <th>adresse</th>
+            <th>code postal</th>
+            <th>ville</th>
+        </tr>
+
+        {% for client in clientList %}
+            <tr>
+                <td>{{ client.fullName }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.birthDate |date('d/m/Y') }}</td>
+                <td>
+                    {% if client.adresses[0] is defined %}
+                        {{ client.adresses[0].address }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if client.adresses[0] is defined %}
+                        {{ client.adresses[0].postalCode }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if client.adresses[0] is defined %}
+                        {{ client.adresses[0].town }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}

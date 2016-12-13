@@ -6,6 +6,7 @@ use ModelBundle\Entity\Address;
 use ModelBundle\Entity\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PlayGroundController
@@ -18,7 +19,7 @@ class PlayGroundController extends Controller
     /**
      * @Route("/")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         //Récupération du dépôt de requête
         $er = $this->getDoctrine()->getRepository('ModelBundle:Customer');
@@ -28,9 +29,12 @@ class PlayGroundController extends Controller
             $this->persistCustomer();
         }
 
+        $clients = $er->findAll();
+
         return $this->render('AppBundle:PlayGround:index.html.twig',
             array(
-                'client' => $client
+                'client' => $client,
+                'clientList' => $clients
             )
         );
     }
