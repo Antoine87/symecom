@@ -1,0 +1,22 @@
+{
+  "name": "symfony-ecommerce",
+  "authors": [
+    "Sebastien Maloron <contact@smaloron.eu>"
+  ],
+  "description": "application ecommerce avec Symfony",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
