@@ -4,13 +4,13 @@ namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CatalogControllerTest extends WebTestCase
+class CustomerControllerTest extends WebTestCase
 {
     public function testIndex()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/index');
     }
 
 }
