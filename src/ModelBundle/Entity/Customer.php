@@ -58,7 +58,8 @@ class Customer
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Address", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="customer",
+     *     cascade={"persist", "remove"})
      */
     private $adresses;
 
