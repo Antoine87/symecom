@@ -10,11 +10,12 @@ namespace ModelBundle\DataFixtures\ORM;
 
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use ModelBundle\Entity\Address;
 use ModelBundle\Entity\Customer;
 
-class CustomerFixture extends AbstractFixture
+class CustomerFixture extends AbstractFixture implements OrderedFixtureInterface
 {
 
     /**
@@ -39,6 +40,7 @@ class CustomerFixture extends AbstractFixture
 
         $customer->addAdress($address);
         $manager->persist($customer);
+        $this->addReference('client_1', $customer);
 
         $customer = new Customer();
         $customer->setName("Chirac")
@@ -55,6 +57,7 @@ class CustomerFixture extends AbstractFixture
 
         $customer->addAdress($address);
         $manager->persist($customer);
+        $this->addReference('client_2', $customer);
 
         $customer = new Customer();
         $customer->setName("Trump")
@@ -71,7 +74,18 @@ class CustomerFixture extends AbstractFixture
 
         $customer->addAdress($address);
         $manager->persist($customer);
+        $this->addReference('client_3', $customer);
 
         $manager->flush();
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 4;
     }
 }
