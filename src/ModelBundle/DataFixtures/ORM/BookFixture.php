@@ -12,6 +12,7 @@ namespace ModelBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use ModelBundle\Entity\Book;
 
 class BookFixture extends AbstractFixture implements OrderedFixtureInterface
@@ -24,6 +25,8 @@ class BookFixture extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $nbBooks = 100;
+
         $book = new Book();
         $book->setAuthor($this->getReference('auteur_1'))
             ->setPublisher($this->getReference('editeur_1'))
@@ -36,6 +39,35 @@ class BookFixture extends AbstractFixture implements OrderedFixtureInterface
             ->addTag($this->getReference("tag_3"));
         $manager->persist($book);
         $this->addReference('livre_1', $book);
+
+        $faker = Factory::create("us_US");
+
+        for($i=2; $i<=$nbBooks; $i++){
+
+            $book = new Book();
+
+            $author_ref = "auteur_". rand(1,5);
+            $publisher_ref = "editeur_". rand(1,5);
+
+            $book->setAuthor($this->getReference($author_ref))
+                ->setPublisher($this->getReference($publisher_ref))
+                ->setTitle($faker->bs)
+                ->setAbstract($faker->paragraphs(rand(1,8), true))
+                ->setPrice($faker->randomFloat(2,1,80))
+                ->setDatePublished($faker->dateTimeThisCentury);
+
+                        $nbTags = rand(0,5);
+                        $allowedTags = range(1,7);
+                        shuffle($allowedTags);
+
+                        for($k=1; $k<= $nbTags; $k++){
+                            $tagNumber = array_pop($allowedTags);
+                            $book->addTag($this->getReference("tag_$tagNumber"));
+                        }
+
+            $manager->persist($book);
+            $this->addReference('livre_'.$i, $book);
+        }
 
         $manager->flush();
 

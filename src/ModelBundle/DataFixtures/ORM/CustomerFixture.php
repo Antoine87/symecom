@@ -12,6 +12,7 @@ namespace ModelBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use ModelBundle\Entity\Address;
 use ModelBundle\Entity\Customer;
 
@@ -75,6 +76,27 @@ class CustomerFixture extends AbstractFixture implements OrderedFixtureInterface
         $customer->addAdress($address);
         $manager->persist($customer);
         $this->addReference('client_3', $customer);
+
+        $faker = Factory::create("fr_FR");
+
+        for($i=4; $i<=24; $i++){
+            $customer = new Customer();
+            $customer->setName($faker->lastName)
+                ->setFirstName($faker->firstName)
+                ->setBirthDate($faker->dateTimeThisCentury)
+                ->setEmail($faker->email);
+
+            $address = new Address();
+            $address->setAddress($faker->streetAddress)
+                ->setPostalCode($faker->postcode)
+                ->setTown($faker->city)
+                ->setCountry($faker->country)
+                ->setCustomer($customer);
+
+            $customer->addAdress($address);
+            $manager->persist($customer);
+            $this->addReference('client_'.$i, $customer);
+        }
 
         $manager->flush();
     }
