@@ -63,6 +63,13 @@ class Customer
      */
     private $adresses;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ModelBundle\Entity\BookOrder",
+     *     mappedBy="customer")
+     */
+    private $orders;
+
 
     /**
      * Get id
@@ -217,5 +224,39 @@ class Customer
             $fullName = $this->firstName . " ";
         }
         return $fullName . strtoupper($this->name);
+    }
+
+    /**
+     * Add order
+     *
+     * @param \ModelBundle\Entity\BookOrder $order
+     *
+     * @return Customer
+     */
+    public function addOrder(\ModelBundle\Entity\BookOrder $order)
+    {
+        $this->orders[] = $order;
+
+        return $this;
+    }
+
+    /**
+     * Remove order
+     *
+     * @param \ModelBundle\Entity\BookOrder $order
+     */
+    public function removeOrder(\ModelBundle\Entity\BookOrder $order)
+    {
+        $this->orders->removeElement($order);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

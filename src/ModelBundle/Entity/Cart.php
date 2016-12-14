@@ -27,6 +27,7 @@ class Cart
     /**
      * @var Customer
      * @ORM\OneToOne(targetEntity="Customer")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $customer;
 
@@ -34,7 +35,6 @@ class Cart
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart",
      *     cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $items;
 

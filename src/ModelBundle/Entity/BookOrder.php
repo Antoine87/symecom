@@ -40,7 +40,7 @@ class BookOrder
 
     /**
      * @var Customer
-     * @ORM\OneToOne(targetEntity="Customer")
+     * @ORM\ManyToOne(targetEntity="Customer", inversedBy="orders")
      */
     private $customer;
 
