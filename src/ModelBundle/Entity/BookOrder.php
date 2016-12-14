@@ -46,7 +46,7 @@ class BookOrder
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order", cascade={"persist"})
      */
     private $items;
 

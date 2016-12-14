@@ -32,7 +32,9 @@ class Cart
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart")
+     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart",
+     *     cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $items;
 

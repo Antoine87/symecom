@@ -56,19 +56,20 @@ class Book
 
     /**
      * @var Publisher
-     * @ORM\ManyToOne(targetEntity="Publisher")
+     * @ORM\ManyToOne(targetEntity="Publisher", cascade={"persist"})
      */
     private $publisher;
 
     /**
      * @var Author
-     * @ORM\ManyToOne(targetEntity="Author")
+     * @ORM\ManyToOne(targetEntity="Author", cascade={"persist"})
      */
     private $author;
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="books")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="books",
+     *     cascade={"persist"})
      */
     private $tags;
 
@@ -266,53 +267,5 @@ class Book
     public function getTags()
     {
         return $this->tags;
-    }
-
-    /**
-     * Set cartItems
-     *
-     * @param \ModelBundle\Entity\CartItem $cartItems
-     *
-     * @return Book
-     */
-    public function setCartItems(\ModelBundle\Entity\CartItem $cartItems = null)
-    {
-        $this->cartItems = $cartItems;
-
-        return $this;
-    }
-
-    /**
-     * Get cartItems
-     *
-     * @return \ModelBundle\Entity\CartItem
-     */
-    public function getCartItems()
-    {
-        return $this->cartItems;
-    }
-
-    /**
-     * Set orderItems
-     *
-     * @param \ModelBundle\Entity\OrderItem $orderItems
-     *
-     * @return Book
-     */
-    public function setOrderItems(\ModelBundle\Entity\OrderItem $orderItems = null)
-    {
-        $this->orderItems = $orderItems;
-
-        return $this;
-    }
-
-    /**
-     * Get orderItems
-     *
-     * @return \ModelBundle\Entity\OrderItem
-     */
-    public function getOrderItems()
-    {
-        return $this->orderItems;
     }
 }
