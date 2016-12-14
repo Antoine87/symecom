@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use ModelBundle\Entity\Address;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Customer
@@ -16,6 +17,7 @@ use ModelBundle\Entity\Address;
  * }
  * )
  * @ORM\Entity(repositoryClass="ModelBundle\Repository\CustomerRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Customer
 {
@@ -30,7 +32,7 @@ class Customer
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne peut être vide")
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
@@ -44,17 +46,29 @@ class Customer
 
     /**
      * @var string
-     *
+     * @Assert\Email(message="Vous devez saisir une adresse e-mail valide")
      * @ORM\Column(name="email", type="string", length=50, unique=true)
      */
     private $email;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\Date(message="Vous devez saisir un date valide")
      * @ORM\Column(name="birth_date", type="date", nullable=true)
      */
     private $birthDate;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @var ArrayCollection
@@ -69,7 +83,6 @@ class Customer
      *     mappedBy="customer")
      */
     private $orders;
-
 
     /**
      * Get id
@@ -258,5 +271,19 @@ class Customer
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist(){
+        $this->createdAt = new \DateTime("now");
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate(){
+        $this->updatedAt = new \DateTime("now");
     }
 }
