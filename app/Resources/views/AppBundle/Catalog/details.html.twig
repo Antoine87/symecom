@@ -15,7 +15,11 @@
                 <ul class="list-inline">
                 {% for tag in book.tags %}
                    <li>
-                       <span class="badge">{{ tag.tagName }}</span>
+                       <span class="badge">
+                           <a style="color:white;" href="{{ path('catalog_by_tag', {'tag': tag.tagName}) }}">
+                            {{ tag.tagName }}
+                           </a>
+                       </span>
                    </li>
                 {% endfor %}
                 </ul>

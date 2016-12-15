@@ -109,12 +109,31 @@ class CatalogController extends Controller
     }
 
     /**
-     * @Route("/par-categorie/{tag}", name="catalog_by_tag")
+     * @Route("/par-categorie/{tag}/page/{page}", name="catalog_by_tag",
+     *     requirements={"page"="\d+"}, defaults={"page"=1})
      */
-    public function byTagAction()
+    public function byTagAction($tag, $page)
     {
+        $bookRepositository = $this->getDoctrine()
+            ->getRepository('ModelBundle:Book');
+        $catalog = $bookRepositository->findByTagPaginated(
+            $tag, $this->maxPerPage,$page
+        );
+
+        $numberOfBooks = $bookRepositository->getTotalNumberOfBooksByTag($tag);
+        $nbOfPages = ceil($numberOfBooks / $this->maxPerPage);
+
+        $queryTitle = "par tag : $tag";
+
+        $basePath = $this->generateUrl("catalog_by_tag", ["tag" => $tag]);
+
         return $this->render(':AppBundle/Catalog:index.html.twig', array(
-            // ...
+            "catalog" => $catalog,
+            "numberOfBooks" => $numberOfBooks,
+            'nbOfPages' => $nbOfPages,
+            'currentPage' => $page,
+            'queryTitle' => $queryTitle,
+            'basePath' => $basePath
         ));
     }
 

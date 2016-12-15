@@ -47,4 +47,26 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function findByTagPaginated($tagName,$maxPerPage, $page=1){
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->join('b.tags', 't')
+            ->andWhere('t.tagName=:tagName')
+            ->setMaxResults($maxPerPage)
+            ->setFirstResult(($page-1)* $maxPerPage)
+            ->setParameter('tagName', $tagName);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getTotalNumberOfBooksByTag($tagName){
+        $qb = $this->createQueryBuilder('b')
+            ->select("COUNT(b)")
+            ->join('b.tags', 't')
+            ->andWhere('t.tagName=:tagName')
+            ->setParameter('tagName', $tagName);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 }
