@@ -10,4 +10,18 @@ namespace ModelBundle\Repository;
  */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllPaginated($maxPerPage = 5, $page=1){
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->setMaxResults($maxPerPage)
+            ->setFirstResult(($page-1)* $maxPerPage);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getTotalNumberOfBooks(){
+        $qb = $this->createQueryBuilder('b')
+            ->select("COUNT(b)");
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

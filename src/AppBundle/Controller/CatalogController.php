@@ -13,13 +13,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class CatalogController extends Controller
 {
+    private $maxPerPage = 10;
+
     /**
-     * @Route("/", name="catalog_home")
+     * @Route("/page/{page}", name="catalog_home",
+     *     requirements={"page"="\d+"},
+     *     defaults={"page"=1}
+     *
+     *)
      */
-    public function indexAction()
+    public function indexAction($page)
     {
+        $bookRepositository = $this->getDoctrine()
+            ->getRepository('ModelBundle:Book');
+        $catalog = $bookRepositository->findAllPaginated(
+            $this->maxPerPage,$page
+        );
+
+        $numberOfBooks = $bookRepositository->getTotalNumberOfBooks();
+        $nbOfPages = ceil($numberOfBooks / $this->maxPerPage);
+
         return $this->render(':AppBundle/Catalog:index.html.twig', array(
-            // ...
+            "catalog" => $catalog,
+            "numberOfBooks" => $numberOfBooks,
+            'nbOfPages' => $nbOfPages,
+            'currentPage' => $page
         ));
     }
 

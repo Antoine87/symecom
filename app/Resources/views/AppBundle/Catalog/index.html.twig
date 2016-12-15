@@ -3,5 +3,46 @@
 {% block title %}AppBundle:Catalog:index{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Catalog:index page</h1>
+    <div class="col-md-10 col-md-offset-1">
+        <h1>Catalogue</h1>
+        <h2>{{ numberOfBooks }} livres</h2>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Editeur</th>
+                <th>Prix</th>
+            </tr>
+            </thead>
+
+            {% for book in catalog  %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author.fullName }}</td>
+                    <td>{{ book.publisher.name }}</td>
+                    <td>{{ book.price }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div>
+            {% if nbOfPages is defined %}
+                <ul class="pagination">
+                {% for page in 1..nbOfPages %}
+                   <li {% if page == currentPage %}
+                       class="active"
+                           {% endif %}
+                   >
+                       <a href="{{ path('catalog_home', {'page':page}) }}">
+                        {{ page }}
+                       </a>
+                   </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}
