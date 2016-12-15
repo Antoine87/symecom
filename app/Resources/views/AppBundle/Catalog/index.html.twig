@@ -40,19 +40,34 @@
             {% endfor %}
         </table>
 
-        <div>
+        <div class="col-md-4 col-md-offset-4">
             {% if nbOfPages is defined %}
+                {% set maxPage= min(currentPage+2, nbOfPages) %}
+                {% set minPage= max(currentPage-2, 1) %}
+
                 <ul class="pagination">
-                    {% for page in 1..nbOfPages %}
+                    <li>
+                        <a href="{{ basePath }}/{{ max(currentPage-1, 1) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+
+                    {% for page in minPage..maxPage %}
                         <li {% if page == currentPage %}
                             class="active"
                         {% endif %}
                         >
-                            <a href="{{basePath}}/{{ page }}">
+                            <a href="{{ basePath }}/{{ page }}">
                                 {{ page }}
                             </a>
                         </li>
                     {% endfor %}
+                    <li>
+                        <a href="{{ basePath }}/{{ min(currentPage+1, nbOfPages) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
                 </ul>
             {% endif %}
         </div>
