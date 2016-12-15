@@ -10,4 +10,12 @@ namespace ModelBundle\Repository;
  */
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTagSummary(){
+        $qb = $this->createQueryBuilder('t')
+            ->join('t.books', 'b')
+            ->select('t as tag, count(b) as nb')
+            ->groupBy('t.tagName');
+
+        return $qb->getQuery()->getResult();
+    }
 }

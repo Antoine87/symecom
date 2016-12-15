@@ -69,4 +69,12 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getAuthorSummary(){
+        $qb = $this->createQueryBuilder('b')
+            ->join('b.author', 'a')
+            ->select('b as details, count(b) as nb, a')
+            ->groupBy('b.author');
+        return $qb->getQuery()->getResult();
+    }
+
 }
