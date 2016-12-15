@@ -47,9 +47,9 @@
 
                 <ul class="pagination">
                     <li>
-                        <a href="{{ basePath }}/{{ max(currentPage-1, 1) }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                    <a href="{{basePath}}/{{ max(currentPage-1, 1) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                     </li>
 
 
@@ -58,15 +58,15 @@
                             class="active"
                         {% endif %}
                         >
-                            <a href="{{ basePath }}/{{ page }}">
+                            <a href="{{basePath}}/{{ page }}">
                                 {{ page }}
                             </a>
                         </li>
                     {% endfor %}
                     <li>
-                        <a href="{{ basePath }}/{{ min(currentPage+1, nbOfPages) }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                    <a href="{{basePath}}/{{ min(currentPage+1, nbOfPages) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
                     </li>
                 </ul>
             {% endif %}
