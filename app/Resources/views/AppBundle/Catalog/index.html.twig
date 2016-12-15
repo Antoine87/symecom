@@ -4,7 +4,12 @@
 
 {% block body %}
     <div class="col-md-10 col-md-offset-1">
-        <h1>Catalogue</h1>
+        {{ basePath }}
+        <h1>Catalogue
+            {% if queryTitle is defined %}
+                {{ queryTitle }}
+            {% endif %}
+        </h1>
         <h2>{{ numberOfBooks }} livres</h2>
 
         <table class="table table-striped">
@@ -13,16 +18,24 @@
                 <th>Titre</th>
                 <th>Auteur</th>
                 <th>Editeur</th>
-                <th>Prix</th>
+                <th class="text-right">Prix</th>
             </tr>
             </thead>
 
-            {% for book in catalog  %}
+            {% for book in catalog %}
                 <tr>
-                    <td>{{ book.title }}</td>
-                    <td>{{ book.author.fullName }}</td>
+                    <td>
+                        <a href="{{ path('catalog_details', {'id':book.id}) }}">
+                            {{ book.title }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('catalog_by_author', {'authorName': book.author.name}) }}">
+                            {{ book.author.fullName }}
+                        </a>
+                    </td>
                     <td>{{ book.publisher.name }}</td>
-                    <td>{{ book.price }}</td>
+                    <td class="text-right">{{ book.price | number_format(2, ',',' ') }} €</td>
                 </tr>
             {% endfor %}
         </table>
@@ -30,16 +43,16 @@
         <div>
             {% if nbOfPages is defined %}
                 <ul class="pagination">
-                {% for page in 1..nbOfPages %}
-                   <li {% if page == currentPage %}
-                       class="active"
-                           {% endif %}
-                   >
-                       <a href="{{ path('catalog_home', {'page':page}) }}">
-                        {{ page }}
-                       </a>
-                   </li>
-                {% endfor %}
+                    {% for page in 1..nbOfPages %}
+                        <li {% if page == currentPage %}
+                            class="active"
+                        {% endif %}
+                        >
+                            <a href="{{basePath}}/{{ page }}">
+                                {{ page }}
+                            </a>
+                        </li>
+                    {% endfor %}
                 </ul>
             {% endif %}
         </div>

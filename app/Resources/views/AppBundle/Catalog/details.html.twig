@@ -2,6 +2,28 @@
 
 {% block body %}
 
+    <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
+            <a href="{{ absolute_url(origin) }}">Retour</a>
+        </div>
+        <h1 class="col-md-9">{{ book.title }}</h1>
+        <h3 class="col-md-3">{{ book.price| number_format(2,',',' ') }} €</h3>
+        <div class="col-md-4">
+            <h4>par {{ book.author.fullName }}</h4>
+            <h5>Édité par {{ book.publisher.name }} en {{ book.datePublished|date('Y') }}</h5>
+            <p>
+                <ul class="list-inline">
+                {% for tag in book.tags %}
+                   <li>
+                       <span class="badge">{{ tag.tagName }}</span>
+                   </li>
+                {% endfor %}
+                </ul>
+            </p>
+
+        </div>
+        <p class="col-md-8 text-muted">{{ book.abstract }}</p>
+    </div>
 {% endblock %}
 
 {% block title %}

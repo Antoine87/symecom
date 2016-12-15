@@ -24,4 +24,27 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             ->select("COUNT(b)");
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function findByAuthorPaginated($authorName,$maxPerPage, $page=1){
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->join('b.author', 'a')
+            ->andWhere('a.name=:authorName')
+            ->setMaxResults($maxPerPage)
+            ->setFirstResult(($page-1)* $maxPerPage)
+            ->setParameter('authorName', $authorName);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getTotalNumberOfBooksByAuthor($authorName){
+        $qb = $this->createQueryBuilder('b')
+            ->select("COUNT(b)")
+            ->join('b.author', 'a')
+            ->andWhere('a.name=:authorName')
+            ->setParameter('authorName', $authorName);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 }
