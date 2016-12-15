@@ -3,13 +3,17 @@
 namespace ModelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use ModelBundle\Entity\Cart;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * CartItem
  *
  * @ORM\Table(name="cart_item")
  * @ORM\Entity(repositoryClass="ModelBundle\Repository\CartItemRepository")
+ * @ExclusionPolicy("none")
  */
 class CartItem
 {
@@ -32,6 +36,7 @@ class CartItem
     /**
      * @var Cart
      * @ORM\ManyToOne(targetEntity="Cart", inversedBy="items")
+     * @Exclude()
      */
     private $cart;
 

@@ -4,15 +4,19 @@ namespace ModelBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use ModelBundle\Entity\Publisher;
 use ModelBundle\Entity\Author;
 use ModelBundle\Entity\Tag;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Book
  *
  * @ORM\Table(name="book")
  * @ORM\Entity(repositoryClass="ModelBundle\Repository\BookRepository")
+ * @ExclusionPolicy("none")
  */
 class Book
 {
@@ -57,12 +61,14 @@ class Book
     /**
      * @var Publisher
      * @ORM\ManyToOne(targetEntity="Publisher", cascade={"persist"})
+     * @Exclude()
      */
     private $publisher;
 
     /**
      * @var Author
      * @ORM\ManyToOne(targetEntity="Author", cascade={"persist"})
+     * @Exclude()
      */
     private $author;
 
@@ -70,6 +76,7 @@ class Book
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="books",
      *     cascade={"persist"})
+     * @Exclude()
      */
     private $tags;
 

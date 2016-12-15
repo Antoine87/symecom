@@ -4,14 +4,18 @@ namespace ModelBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use ModelBundle\Entity\CartItem;
 use ModelBundle\Entity\Customer;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Cart
  *
  * @ORM\Table(name="cart")
  * @ORM\Entity(repositoryClass="ModelBundle\Repository\CartRepository")
+ * @ExclusionPolicy("none")
  */
 class Cart
 {
@@ -28,6 +32,7 @@ class Cart
      * @var Customer
      * @ORM\OneToOne(targetEntity="Customer")
      * @ORM\JoinColumn(nullable=true)
+     * @Exclude()
      */
     private $customer;
 
