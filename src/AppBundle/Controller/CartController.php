@@ -25,9 +25,13 @@ class CartController extends Controller
     public function indexAction(Request $request){
 
         $cart = $this->getCartFromSession($request);
+        $referer = $request->getSession()->get('cartReferer',
+            $this->generateUrl('catalog_home')
+        );
 
         return $this->render(":AppBundle/Cart:index.html.twig", [
-            'cart' => $cart
+            'cart' => $cart,
+            'referer' => $referer
         ]);
     }
 
