@@ -81,6 +81,48 @@ class CartController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @Route("/recalculer", name="cart_update")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function updateAction(Request $request){
+        $newQt = $request->request->get("qt");
+        $cart = $this->getCartFromSession($request);
+        $toBeDeleted = [];
+
+        for($i=0; $i< count($newQt); $i++){
+            $qt = $newQt[$i];
+            $cart->getItems()[$i]->setQt($qt);
+            if($qt == 0){
+                $toBeDeleted[] = $i;
+            }
+        }
+
+        foreach ($toBeDeleted as $deleteIndex){
+            $cart->getItems()->remove($deleteIndex);
+        }
+
+        $this->saveCartToSession($request, $cart);
+
+        return $this->redirectToRoute('cart_home');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/vider", name="cart_clear")
+     */
+    public function clearAction(Request $request){
+        $cart = $this->getCartFromSession($request);
+
+        $cart->deleteAllItems();
+
+        $this->saveCartToSession($request, $cart);
+
+        return $this->redirectToRoute('catalog_home');
+    }
+
+    /**
      * Récupération d'un panier à partir des données de la session
      * @param Request $request
      * @return array|\JMS\Serializer\scalar|mixed|Cart|object

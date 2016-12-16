@@ -117,4 +117,8 @@ class Cart
     {
         return $this->items;
     }
+
+    public function deleteAllItems(){
+        $this->items = new ArrayCollection();
+    }
 }
