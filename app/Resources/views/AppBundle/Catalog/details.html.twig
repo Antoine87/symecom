@@ -28,6 +28,24 @@
         </div>
         <p class="col-md-8 text-muted">{{ book.abstract }}</p>
     </div>
+
+    <div class="col-md-4 ">
+        <h3>Laissez un commentaire</h3>
+        {{ form(commentForm) }}
+    </div>
+
+    <div class="col-md-8 ">
+        <h3>Liste des commentaires</h3>
+        {% for comment in comments %}
+            <div>
+                <p>par {{ comment.authorEmail }} le
+                    {{ comment.createdAt | date('d/m/Y') }}
+                </p>
+                <p>{{ comment.commentText }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
 
 {% block title %}
