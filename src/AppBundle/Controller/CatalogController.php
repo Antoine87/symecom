@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use ModelBundle\Entity\Comment;
+use ModelBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +57,33 @@ class CatalogController extends Controller
             ->getRepository('ModelBundle:Book');
         $book = $bookRepository->find($id);
 
+        //Création du formulaire
+        $comment = new Comment();
+        $comment->setBook($book)->setCreatedAt(new \DateTime());
+        $form = $this->createForm(
+            CommentType::class,
+            $comment,
+            [
+                'action' => $this->generateUrl('catalog_details', ['id' => $id]),
+                'attr' => ['novalidate'=>'novalidate']
+            ]
+        );
+
+        //Traitement du formulaire
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('catalog_details', ['id'=>$id]);
+        }
+
+        $commentRepository = $this->getDoctrine()
+            ->getRepository('ModelBundle:Comment');
+        $comments = $commentRepository->findByBook($book);
+
         $origin = str_replace(
             "http://".$request->headers->get("host"),
             "",
@@ -65,7 +94,9 @@ class CatalogController extends Controller
 
         return $this->render(':AppBundle/Catalog:details.html.twig', array(
             'book' => $book,
-            'origin' => $origin
+            'origin' => $origin,
+            'commentForm' => $form->createView(),
+            'comments' => $comments
         ));
     }
 

@@ -80,6 +80,12 @@ class Book
      */
     private $tags;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ModelBundle\Entity\Comment", mappedBy="book")
+     */
+    private $comments;
+
 
     /**
      * Get id
@@ -274,5 +280,39 @@ class Book
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \ModelBundle\Entity\Comment $comment
+     *
+     * @return Book
+     */
+    public function addComment(\ModelBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \ModelBundle\Entity\Comment $comment
+     */
+    public function removeComment(\ModelBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
