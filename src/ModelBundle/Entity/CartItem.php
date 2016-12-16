@@ -158,4 +158,9 @@ class CartItem
 
         return $this;
     }
+
+    public function addQuantity($n){
+        $this->qt += $n;
+        return $this;
+    }
 }

@@ -19,6 +19,7 @@
                 <th>Auteur</th>
                 <th>Editeur</th>
                 <th class="text-right">Prix</th>
+                <th></th>
             </tr>
             </thead>
 
@@ -36,6 +37,11 @@
                     </td>
                     <td>{{ book.publisher.name }}</td>
                     <td class="text-right">{{ book.price | number_format(2, ',',' ') }} €</td>
+                    <td>
+                        <a href="{{ path('cart_add', {'id': book.id}) }}" class="btn btn-sm btn-primary">
+                            ajouter au panier
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
