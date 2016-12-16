@@ -16,6 +16,7 @@ class CatalogController extends Controller
 {
     private $maxPerPage = 5;
 
+
     /**
      * @Route("/page/{page}", name="catalog_home",
      *     requirements={"page"="\d+"},
