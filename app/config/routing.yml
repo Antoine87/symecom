@@ -9,3 +9,6 @@ app:
 
 admin_login_check:
     path: /admin/login_check
+
+admin_logout:
+    path: /admin/logout

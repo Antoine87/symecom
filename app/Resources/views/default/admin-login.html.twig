@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block navigation %}{% endblock %}
+
 {% block body %}
 
-    <h1>Login administrateur</h1>
+    <h1>{{ 'admin.login.title'| trans }}</h1>
 
     {%  if error %}
         <div class="alert alert-danger">
-            {{ error.message }}
+            {{ error.message | trans }}
         </div>
     {% endif %}
 

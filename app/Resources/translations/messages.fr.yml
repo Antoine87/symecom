@@ -1,0 +1,6 @@
+Bad credentials.: Vos identifiants et/ou mot de passe sont incorrectes
+admin:
+  home:
+    title: Bienvenue sur l'administration
+  login:
+      title: Authentification des administrateurs
