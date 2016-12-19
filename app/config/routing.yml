@@ -6,3 +6,6 @@ admin:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+admin_login_check:
+    path: /admin/login_check

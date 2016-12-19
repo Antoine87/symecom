@@ -26,4 +26,20 @@ class DefaultController extends Controller
             'tagSummary' => $tagSummary
         ]);
     }
+
+    /**
+     * @Route("/login-admin", name="admin_login")
+     */
+    public function adminLoginAction(){
+        $securityUtils = $this->get('security.authentication_utils');
+
+        $error = $securityUtils->getLastAuthenticationError();
+        $userName = $securityUtils->getLastUsername();
+
+        return $this->render(':default:admin-login.html.twig', [
+            'error' => $error,
+            'userName' => $userName
+        ]);
+
+    }
 }
