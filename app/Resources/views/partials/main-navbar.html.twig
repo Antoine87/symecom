@@ -19,7 +19,12 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Connexion</a></li>
+                {% if is_granted('ROLE_USER') %}
+                    <li class="navbar-text">Bonjour {{ app.user.fullName }}</li>
+                    <li><a href="{{ path('customer_logout') }}">Déconnexion</a></li>
+                {%  else %}
+                    <li><a href="{{ path('customer_login') }}">Connexion</a></li>
+                {% endif %}
                 <li><a href="#">Mon compte</a></li>
                 <li><a href="{{ path("cart_home") }}">Voir le panier</a></li>
             </ul>

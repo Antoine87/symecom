@@ -3,4 +3,7 @@ admin:
   home:
     title: Bienvenue sur l'administration
   login:
-      title: Authentification des administrateurs
+    title: Authentification des administrateurs
+customer:
+  login:
+    title: Authentification des clients
