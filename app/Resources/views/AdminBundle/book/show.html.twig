@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="col-md-8 col-md-offset-2">
+    <h1>Book</h1>
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ book.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ book.title }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ book.price }}</td>
+            </tr>
+            <tr>
+                <th>Datepublished</th>
+                <td>{% if book.datePublished %}{{ book.datePublished|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Abstract</th>
+                <td>{{ book.abstract }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-sm btn-primary" href="{{ path('livre_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a class="btn btn-sm btn-primary" href="{{ path('livre_edit', { 'id': book.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <button class="btn btn-primary" type="submit" value="Delete">Delete</button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+{% endblock %}
