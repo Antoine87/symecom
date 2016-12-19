@@ -12,3 +12,9 @@ admin_login_check:
 
 admin_logout:
     path: /admin/logout
+
+customer_login_check:
+    path: /login_check
+
+customer_logout:
+    path: /logout

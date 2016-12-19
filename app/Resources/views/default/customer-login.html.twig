@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block navigation %}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ 'customer.login.title'| trans }}</h1>
+
+    {%  if error %}
+        <div class="alert alert-danger">
+            {{ error.message | trans }}
+        </div>
+    {% endif %}
+
+    <form class="form form-inline" method="post"
+          action="{{ path('customer_login_check') }}">
+
+        <div class="form-group">
+            <input type="text" class="form-control"
+            name="_username" placeholder="votre login" value="{{ userName }}">
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control"
+                   name="_password" placeholder="votre mot de passe">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </div>
+
+    </form>
+{% endblock %}

@@ -8,11 +8,15 @@ security:
             memory:
               users:
                 admin:
-                  password: 123
+                  password: $2y$13$RCCsLviPb81zhS0jushkv.xox.LMLJq8A9qdH4iy5LxK93mR8dn3a
                   roles: ROLE_ADMIN
                 admax:
-                  password: 456
-                  roles: ROLE_ADMIN
+                  password: $2y$13$qVvKtO.MUqr7f/Lcf.lHTOcDUAQVWpNjSRbsr7W3XBDuw2Sx8MFDq
+                  roles: ROLE_SUPERADMIN
+        customer_entity:
+            entity:
+              class: ModelBundle\Entity\Customer
+              property: email
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -32,6 +36,18 @@ security:
             path: admin_logout
             target: /
 
+        customer_firewall:
+            pattern: ^/
+            anonymous: true
+            provider: customer_entity
+            form_login:
+              login_path: customer_login
+              check_path: customer_login_check
+              default_target_path: homepage
+            logout:
+              path: customer_logout
+              target: /
+
         main:
             anonymous: ~
             # activate different ways to authenticate
@@ -42,4 +58,19 @@ security:
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
     encoders:
-      Symfony\component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User:
+          algorithm: bcrypt
+          iterations: 2000
+
+        ModelBundle\Entity\Customer:
+          algorithm: sha1
+          iterations: 1
+          encode_as_base64: false
+
+
+    role_hierarchy:
+        ROLE_SUPERADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    access-control:
+      - {path: ^/admin/livre, roles: ROLE_SUPERADMIN}
+      - {path: ^/admin, roles: ROLE_ADMIN}

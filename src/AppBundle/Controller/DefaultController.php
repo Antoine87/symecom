@@ -42,4 +42,20 @@ class DefaultController extends Controller
         ]);
 
     }
+
+    /**
+     * @Route("/login-client", name="customer_login")
+     */
+    public function customerLoginAction(){
+        $securityUtils = $this->get('security.authentication_utils');
+
+        $error = $securityUtils->getLastAuthenticationError();
+        $userName = $securityUtils->getLastUsername();
+
+        return $this->render(':default:customer-login.html.twig', [
+            'error' => $error,
+            'userName' => $userName
+        ]);
+
+    }
 }

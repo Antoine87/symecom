@@ -30,7 +30,8 @@ class CustomerFixture extends AbstractFixture implements OrderedFixtureInterface
         $customer->setName("Obama")
             ->setFirstName("Barack")
             ->setBirthDate(new \DateTime("today -48 year"))
-            ->setEmail("obama@mail.com");
+            ->setEmail("obama@mail.com")
+            ->setPlainPassword('123');
 
         $address = new Address();
         $address->setAddress("5 rue Orfila")
@@ -47,7 +48,8 @@ class CustomerFixture extends AbstractFixture implements OrderedFixtureInterface
         $customer->setName("Chirac")
             ->setFirstName("Jacques")
             ->setBirthDate(new \DateTime("today -75 year"))
-            ->setEmail("chirac@mail.com");
+            ->setEmail("chirac@mail.com")
+            ->setPlainPassword('123');
 
         $address = new Address();
         $address->setAddress("5 rue de la grande truanderie")
@@ -64,7 +66,8 @@ class CustomerFixture extends AbstractFixture implements OrderedFixtureInterface
         $customer->setName("Trump")
             ->setFirstName("Donald")
             ->setBirthDate(new \DateTime("today -70 year -15 day"))
-            ->setEmail("trump@mail.com");
+            ->setEmail("trump@mail.com")
+            ->setPlainPassword('123');
 
         $address = new Address();
         $address->setAddress("3 rue des boulets")
@@ -84,7 +87,8 @@ class CustomerFixture extends AbstractFixture implements OrderedFixtureInterface
             $customer->setName($faker->lastName)
                 ->setFirstName($faker->firstName)
                 ->setBirthDate($faker->dateTimeThisCentury)
-                ->setEmail($faker->email);
+                ->setEmail($faker->email)
+                ->setPlainPassword('123');
 
             $address = new Address();
             $address->setAddress($faker->streetAddress)

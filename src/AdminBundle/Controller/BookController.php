@@ -24,6 +24,13 @@ class BookController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $user= $this->getUser();
+        $this->denyAccessUnlessGranted(
+          'ROLE_SUPERADMIN',
+            $user,
+            "Accès interdit"
+        );
+
         $books = $em->getRepository('ModelBundle:Book')->findAll();
 
         return $this->render('AdminBundle/book/index.html.twig', array(
