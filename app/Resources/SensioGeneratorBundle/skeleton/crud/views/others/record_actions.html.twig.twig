@@ -1,0 +1,24 @@
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-sm btn-primary" href="{{ "{{ path('" ~ route_name_prefix ~ "_index') }}" }}">Back to the list</a>
+        </li>
+
+        {%- if ('edit' in actions) and (not hide_edit) %}
+
+        <li>
+            <a class="btn btn-sm btn-primary" href="{{ "{{ path('" ~ route_name_prefix ~ "_edit', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">Edit</a>
+        </li>
+
+        {%- endif %}
+
+        {%- if ('delete' in actions) and (not hide_delete) %}
+
+        <li>
+            {{ '{{ form_start(delete_form) }}' }}
+                <button class="btn btn-primary" type="submit" value="Delete">Delete</button>
+            {{ '{{ form_end(delete_form) }}' }}
+        </li>
+
+        {%- endif %}
+
+    </ul>

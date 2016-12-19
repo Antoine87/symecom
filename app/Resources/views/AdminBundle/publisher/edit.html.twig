@@ -1,0 +1,25 @@
+    {% extends 'base.html.twig' %}
+
+    {% block body %}
+    <div class="col-md-8 col-md-offset-2">
+        <h1>Publisher edit</h1>
+
+        {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <button class="btn btn-primary" type="submit" value="Edit">
+            Edit
+        </button>
+        {{ form_end(edit_form) }}
+
+                    <ul class="list-inline">
+        <li>
+            <a class="btn btn-sm btn-primary" href="{{ path('editeur_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <button class="btn btn-primary" type="submit" value="Delete">Delete</button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+    {% endblock %}
