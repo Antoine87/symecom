@@ -7,6 +7,7 @@ use ModelBundle\Form\CustomerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class DefaultController extends Controller
@@ -23,6 +24,8 @@ class DefaultController extends Controller
 
         $authorSummary = $catalogRepository->getAuthorSummary();
         $tagSummary = $tagRepository->getTagSummary();
+
+        $this->getUser();
 
         return $this->render('default/index.html.twig', [
             'authorSummary' => $authorSummary,
@@ -100,5 +103,15 @@ class DefaultController extends Controller
         return $this->render('AppBundle/Customer/register.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/test-service")
+     */
+    public function testServiceAction(){
+        $serviceName = "hello";
+        $helloService = $this->get('service.'.$serviceName);
+
+        return new Response($helloService->sayHello());
     }
 }

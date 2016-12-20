@@ -24,7 +24,7 @@ class CartController extends Controller
      */
     public function indexAction(Request $request){
 
-        $cart = $this->getCartFromSession($request);
+        $cart = $this->getCartHandler()->getCart();
         $referer = $request->getSession()->get('cartReferer',
             $this->generateUrl('catalog_home')
         );
@@ -41,7 +41,7 @@ class CartController extends Controller
      * )
      */
     public function addToCartAction(Request $request, $id){
-        $cart = $this->getCartFromSession($request);
+        $cart = $this->getCartHandler()->getCart();
 
         $er = $this->getDoctrine()->getRepository('ModelBundle:Book');
         $book = $er->find($id);
@@ -71,7 +71,7 @@ class CartController extends Controller
             }
         }
 
-        $this->saveCartToSession($request, $cart);
+        $this->getCartHandler()->saveCart($cart);
 
         $this->addFlash("cartInfo", "Votre produit a été ajouté au panier");
         $request->getSession()->set("cartReferer", $request->headers->get("referer"));
@@ -87,7 +87,7 @@ class CartController extends Controller
      */
     public function updateAction(Request $request){
         $newQt = $request->request->get("qt");
-        $cart = $this->getCartFromSession($request);
+        $cart = $this->getCartHandler()->getCart();
         $toBeDeleted = [];
 
         for($i=0; $i< count($newQt); $i++){
@@ -102,7 +102,7 @@ class CartController extends Controller
             $cart->getItems()->remove($deleteIndex);
         }
 
-        $this->saveCartToSession($request, $cart);
+        $this->getCartHandler()->saveCart($cart);
 
         return $this->redirectToRoute('cart_home');
     }
@@ -113,40 +113,24 @@ class CartController extends Controller
      * @Route("/vider", name="cart_clear")
      */
     public function clearAction(Request $request){
-        $cart = $this->getCartFromSession($request);
+        $cart = $this->getCartHandler()->getCart();
 
         $cart->deleteAllItems();
 
-        $this->saveCartToSession($request, $cart);
+        $this->getCartHandler()->saveCart($cart);
 
         return $this->redirectToRoute('catalog_home');
     }
 
     /**
-     * Récupération d'un panier à partir des données de la session
-     * @param Request $request
-     * @return array|\JMS\Serializer\scalar|mixed|Cart|object
+     * @return \AppBundle\Services\SessionCartHandler
      */
-    private function getCartFromSession(Request $request){
-        $serializedCart = $request->getSession()->get("cart",null);
-        $serializer = $this->get('jms_serializer');
-
-        if(empty($serializedCart)){
-            $cart = new Cart();
+    private function getCartHandler(){
+        if( in_array('ROLE_USER', $this->getUser()->getRoles())){
+            return $this->get("database.cart.handler");
         } else {
-            $cart = $serializer->deserialize(
-                $serializedCart,
-                'ModelBundle\Entity\Cart',
-                'json'
-            );
+            return $this->get("session.cart.handler");
         }
 
-        return $cart;
-    }
-
-    private function saveCartToSession(Request $request, Cart $cart){
-        $serializer = $this->get('jms_serializer');
-        $serializedCart = $serializer->serialize($cart, 'json');
-        $request->getSession()->set('cart', $serializedCart);
     }
 }

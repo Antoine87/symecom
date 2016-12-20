@@ -7,3 +7,18 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+  service.hello:
+    class: AppBundle\Services\HelloService
+    arguments: ["@request_stack"]
+
+  session.cart.handler:
+    class: AppBundle\Services\SessionCartHandler
+    arguments: ["@request_stack", "@jms_serializer"]
+
+  repository.cart:
+    class: ModelBundle\Repository\CartRepository
+
+  database.cart.handler:
+    class: AppBundle\Services\DataBaseCartHandler
+    arguments: ["@doctrine.orm.entity_manager", "@repository.cart", "@security.token_storage"]
