@@ -2,9 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use ModelBundle\Entity\Customer;
+use ModelBundle\Form\CustomerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class DefaultController extends Controller
 {
@@ -57,5 +60,45 @@ class DefaultController extends Controller
             'userName' => $userName
         ]);
 
+    }
+
+    /**
+     * @Route("/inscription-client", name="customer_register")
+     */
+    public function customerRegister(Request $request){
+        $customer = new Customer();
+
+        $form = $this->createForm(
+            CustomerType::class
+            ,$customer,
+            [
+                'action' => $this->generateUrl('customer_register')
+            ]
+            );
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($customer);
+            $em->flush();
+
+            /**************
+             * Auto login
+             *************/
+            //Génération du token d'authentification
+            $token = new UsernamePasswordToken(
+                $customer, null,'customer_firewall',$customer->getRoles()
+            );
+            //Injection du token
+            $this->get('security.token_storage')->setToken($token);
+            $this->get('session')->set('_security_customer_firewall', serialize($token));
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('AppBundle/Customer/register.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

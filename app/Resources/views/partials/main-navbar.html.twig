@@ -25,10 +25,12 @@
                 {% if is_granted('ROLE_USER') %}
                     <li class="navbar-text">Bonjour {{ app.user.fullName }}</li>
                     <li><a href="{{ path('customer_logout') }}">Déconnexion</a></li>
+                    <li><a href="#">Mon compte</a></li>
                 {%  else %}
                     <li><a href="{{ path('customer_login') }}">Connexion</a></li>
+                    <li><a href="{{ path('customer_register') }}">Inscription</a></li>
                 {% endif %}
-                <li><a href="#">Mon compte</a></li>
+
                 <li><a href="{{ path("cart_home") }}">Voir le panier</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
