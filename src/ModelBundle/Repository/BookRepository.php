@@ -42,6 +42,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             ->select("COUNT(b)")
             ->join('b.author', 'a')
             ->andWhere('a.name=:authorName')
+            ->addGroupBy('a.authorName')
             ->setParameter('authorName', $authorName);
 
         return $qb->getQuery()->getSingleScalarResult();
@@ -64,6 +65,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             ->select("COUNT(b)")
             ->join('b.tags', 't')
             ->andWhere('t.tagName=:tagName')
+            ->addGroupBy('t.tagName')
             ->setParameter('tagName', $tagName);
 
         return $qb->getQuery()->getSingleScalarResult();
