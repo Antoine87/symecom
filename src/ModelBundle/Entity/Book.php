@@ -10,6 +10,7 @@ use ModelBundle\Entity\Author;
 use ModelBundle\Entity\Tag;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Exclude;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Book
@@ -86,6 +87,18 @@ class Book
      */
     private $comments;
 
+    /**
+     * @var string
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"title"},unique=true, updatable=false)
+     */
+    private $slug;
+
+
+    public function getAuthorName(){
+        return $this->author->getFullName();
+    }
+    
 
     /**
      * Get id
@@ -314,5 +327,29 @@ class Book
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Book
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

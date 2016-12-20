@@ -49,13 +49,13 @@ class CatalogController extends Controller
     }
 
     /**
-     * @Route("/details/{id}", name="catalog_details")
+     * @Route("/details/{slug}", name="catalog_details")
      */
-    public function detailsAction($id, Request $request)
+    public function detailsAction($slug, Request $request)
     {
         $bookRepository = $this->getDoctrine()
             ->getRepository('ModelBundle:Book');
-        $book = $bookRepository->find($id);
+        $book = $bookRepository->findOneBySlug($slug);
 
         //Création du formulaire
         $comment = new Comment();
@@ -64,7 +64,7 @@ class CatalogController extends Controller
             CommentType::class,
             $comment,
             [
-                'action' => $this->generateUrl('catalog_details', ['id' => $id]),
+                'action' => $this->generateUrl('catalog_details', ['slug' => $slug]),
                 'attr' => ['novalidate'=>'novalidate']
             ]
         );

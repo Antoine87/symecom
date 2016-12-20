@@ -26,7 +26,7 @@
             {% for book in catalog %}
                 <tr>
                     <td>
-                        <a href="{{ path('catalog_details', {'id':book.id}) }}">
+                        <a href="{{ path('catalog_details', {'slug':book.slug}) }}">
                             {{ book.title }}
                         </a>
                     </td>
