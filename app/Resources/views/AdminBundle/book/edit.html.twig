@@ -23,3 +23,12 @@
     </ul>
 </div>
     {% endblock %}
+
+    {% block javascript %}
+        {{ parent() }}
+        <script src="//cdn.ckeditor.com/4.6.1/standard/ckeditor.js"></script>
+
+        <script>
+            CKEDITOR.replace('modelbundle_book_abstract');
+        </script>
+    {% endblock %}

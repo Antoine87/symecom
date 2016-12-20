@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new \Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new \Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
 
             new AppBundle\AppBundle(),
             new ModelBundle\ModelBundle(),
