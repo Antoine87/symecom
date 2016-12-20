@@ -94,7 +94,7 @@ class Customer implements \Serializable, UserInterface
     /**
      * @var string
      */
-    private $plainPassword;
+    private $plainPassword = '';
 
     /**
      * @return string

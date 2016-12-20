@@ -5,6 +5,7 @@ namespace ModelBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,6 +25,7 @@ class CustomerType extends AbstractType
             ->add('birthDate', DateType::class, [
                 'label' => 'date de naissance', 'widget' => 'single_text'
             ])
+            ->add('plainPassword', PasswordType::class, ['label'=>'Mot de passe'])
             ->add('submit', SubmitType::class, ['label' => 'Valider'])
         ;
     }

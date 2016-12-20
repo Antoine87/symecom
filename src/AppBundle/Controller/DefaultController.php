@@ -65,7 +65,7 @@ class DefaultController extends Controller
     /**
      * @Route("/inscription-client", name="customer_register")
      */
-    public function customerRegister(Request $request){
+    public function customerRegisterAction(Request $request){
         $customer = new Customer();
 
         $form = $this->createForm(
